@@ -12,16 +12,13 @@
     <iframe src="https://chatstage-one.dynatrace.com/api/sso/oauth2/embedded/login?timestamp=1741941638853&origin=https%3A%2F%2Fchatstage-one.dynatrace.com.nileninja.site"></iframe>
     <script>    
         window.addEventListener("message", event => {
-          // Parse the JSON data from the event
-          const parsedResponse = JSON.parse(event.data);
-          
           // Access and alert the content as text
           const alertMessage = `
-              SSO: ${parsedResponse.sso}
-              Access Token: ${parsedResponse.tokenSet.accessToken}
-              Refresh Token: ${parsedResponse.tokenSet.refreshToken}
-              Expires In: ${parsedResponse.tokenSet.expiresInSeconds} seconds
-              Error: ${parsedResponse.error ? parsedResponse.error : 'No error'}
+              SSO: ${event.data.sso}
+              Access Token: ${event.data.tokenSet.accessToken}
+              Refresh Token: ${event.data.tokenSet.refreshToken}
+              Expires In: ${event.data.tokenSet.expiresInSeconds} seconds
+              Error: ${event.data.error ? parsedResponse.error : 'No error'}
           `;
           
           alert(alertMessage);
