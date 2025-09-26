@@ -1,0 +1,37 @@
+<EntityDescriptor
+    xmlns="urn:oasis:names:tc:SAML:2.0:metadata"
+    entityID="https://example.com/idp">
+
+    <IDPSSODescriptor
+        protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+
+        <!-- IdP signing certificate -->
+        <KeyDescriptor use="signing">
+            <KeyInfo xmlns="http://www.w3.org/2000/09/xmldsig#">
+                <X509Data>
+                    <X509Certificate>
+                        MIIDdzCCAl+gAwIBAgIEbW9jawo...
+                    </X509Certificate>
+                </X509Data>
+            </KeyInfo>
+        </KeyDescriptor>
+
+        <!-- Single Sign-On service endpoint -->
+        <SingleSignOnService
+            Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+            Location="https://example.com/idp/sso" />
+
+        <!-- Single Logout service endpoint -->
+        <SingleLogoutService
+            Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+            Location="https://example.com/idp/logout" />
+
+    </IDPSSODescriptor>
+
+    <!-- Example contact info -->
+    <ContactPerson contactType="technical">
+        <GivenName>John</GivenName>
+        <EmailAddress>support@example.com</EmailAddress>
+    </ContactPerson>
+
+</EntityDescriptor>
